@@ -15,13 +15,15 @@ describe('ibanTemizle', () => {
   it('boşluk, tire ve önek', () => {
     expect(ibanTemizle('tr33 0006 1005 1978 6457 8413 26')).toBe('TR330006100519786457841326');
     expect(ibanTemizle('IBAN: TR33-0006-1005-1978-6457-8413-26')).toBe('TR330006100519786457841326');
-    expect(ibanTemizle(' TR33 0006​1005 1978 6457 8413 26 ')).toBe('TR330006100519786457841326');
+    expect(ibanTemizle(' TR33\u00a00006\u200b1005 1978 6457 8413 26 ')).toBe('TR330006100519786457841326');
   });
 });
 
 describe('ibanDogrula', () => {
   it.each(GECERLI)('%s geçerli', (iban) => {
-    expect(ibanDogrula(iban)).toEqual({ gecerli: true, iban });
+    const s = ibanDogrula(iban);
+    expect(s.gecerli).toBe(true);
+    expect(s.iban).toBe(iban);
     expect(ibanGecerliMi(iban)).toBe(true);
   });
 

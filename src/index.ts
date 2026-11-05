@@ -1,5 +1,7 @@
 export { BANKALAR, LISTE_TARIHI, bankaBul } from './bankalar';
 export type { Banka, KurumTuru } from './bankalar';
+export { ibanBicimle, ibanMaskele } from './bicim';
+export type { MaskeSecenekleri } from './bicim';
 export { ibanDogrula, ibanGecerliMi } from './dogrula';
 export type { DogrulamaSonucu } from './dogrula';
 export { IBAN_UZUNLUGU, ibanParcala, ibanTemizle, kontrolHaneleri } from './iban';

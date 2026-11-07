@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IBAN Kontrol</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231f7a4d'/%3E%3Ctext x='16' y='22' font-size='15' font-family='sans-serif' font-weight='700' text-anchor='middle' fill='white'%3ETR%3C/text%3E%3C/svg%3E">
+  <meta name="description" content="Türk IBAN numarasının doğru yazılıp yazılmadığını ve hangi bankaya ait olduğunu kontrol edin. IBAN tarayıcınızdan çıkmaz.">
+  <style>
+    :root {
+      --zemin: #f7f7f5;
+      --kart: #fff;
+      --yazi: #1d1d1b;
+      --soluk: #6b6b66;
+      --cizgi: #e2e2dd;
+      --iyi: #1f7a4d;
+      --kotu: #b3261e;
+      --uyari: #8a5a00;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --zemin: #161615;
+        --kart: #1f1f1d;
+        --yazi: #ececea;
+        --soluk: #9a9a94;
+        --cizgi: #34342f;
+        --iyi: #4cc38a;
+        --kotu: #f2786d;
+        --uyari: #e0b04a;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--zemin);
+      color: var(--yazi);
+    }
+    main { max-width: 640px; margin: 0 auto; padding: 48px 16px 32px; }
+    h1 { font-size: 28px; margin: 0 0 4px; }
+    .alt { color: var(--soluk); margin: 0 0 24px; }
+    input {
+      width: 100%;
+      font: 20px/1.4 ui-monospace, "SFMono-Regular", Consolas, monospace;
+      letter-spacing: 0.5px;
+      padding: 14px 16px;
+      border: 1px solid var(--cizgi);
+      border-radius: 10px;
+      background: var(--kart);
+      color: var(--yazi);
+    }
+    input:focus { outline: 2px solid var(--yazi); outline-offset: 1px; }
+    #sonuc {
+      margin-top: 16px;
+      padding: 16px;
+      border: 1px solid var(--cizgi);
+      border-radius: 10px;
+      background: var(--kart);
+      min-height: 60px;
+    }
+    #durum { font-weight: 600; font-size: 18px; }
+    .iyi { color: var(--iyi); }
+    .kotu { color: var(--kotu); }
+    .uyari { color: var(--uyari); }
+    dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 12px 0 0; }
+    dt { color: var(--soluk); }
+    dd { margin: 0; word-break: break-word; }
+    code, .mono { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; }
+    button {
+      font: inherit;
+      font-size: 14px;
+      margin-left: 8px;
+      padding: 2px 10px;
+      border: 1px solid var(--cizgi);
+      border-radius: 6px;
+      background: transparent;
+      color: var(--yazi);
+      cursor: pointer;
+    }
+    .not { color: var(--soluk); font-size: 14px; margin-top: 12px; }
+    h2 { font-size: 18px; margin: 40px 0 8px; }
+    pre {
+      background: var(--kart);
+      border: 1px solid var(--cizgi);
+      border-radius: 8px;
+      padding: 12px;
+      overflow-x: auto;
+      font-size: 13px;
+    }
+    footer { color: var(--soluk); font-size: 14px; margin-top: 40px; }
+    a { color: inherit; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>IBAN Kontrol</h1>
+  <p class="alt">Türk IBAN'ı yapıştırın, doğru yazılmış mı ve hangi bankanın, hemen görün.</p>
+
+  <input id="iban" autocomplete="off" spellcheck="false" inputmode="text"
+         placeholder="TR00 0000 0000 0000 0000 0000 00" aria-label="IBAN">
+
+  <div id="sonuc" aria-live="polite">
+    <div id="durum" class="soluk"></div>
+    <dl id="ayrinti" hidden></dl>
+  </div>
+
+  <p class="not">
+    Kontrol tarayıcınızda yapılıyor, yazdığınız IBAN hiçbir yere gönderilmiyor.
+    Bu sayfa IBAN'ın yazımının doğru olduğunu ve bankasını söyler; hesabın açık olup olmadığını
+    ya da kime ait olduğunu söyleyemez.
+  </p>
+
+  <h2>API</h2>
+  <p>Tek IBAN:</p>
+  <pre><code>curl -X POST <span class="kok"></span>/api/dogrula \
+  -H "content-type: application/json" \
+  -d '{"iban": "TR20 0006 2000 0000 0006 2987 65"}'</code></pre>
+  <p>En fazla 100 IBAN, tek istekte:</p>
+  <pre><code>curl -X POST <span class="kok"></span>/api/dogrula \
+  -H "content-type: application/json" \
+  -d '{"ibanlar": ["TR20...", "TR33..."]}'</code></pre>
+  <p>
+    <code>GET /api/dogrula?iban=...</code> da çalışıyor ama IBAN adres çubuğunda ve kayıtlarda
+    görünebileceği için <code>POST</code> daha doğru. Banka kodu listesi: <a href="bankalar.json">bankalar.json</a>.
+  </p>
+
+  <footer>
+    <a href="https://github.com/Kadirify/iban-tr">GitHub</a> ·
+    <a href="https://www.npmjs.com/package/iban-tr">npm</a> ·
+    Banka listesi TCMB ve Ticaret Bakanlığı kayıtlarından.
+  </footer>
+</main>
+
+<script type="module">
+  import { ibanDogrula, ibanBicimle } from './iban-tr.js';
+
+  const girdi = document.getElementById('iban');
+  const durum = document.getElementById('durum');
+  const ayrinti = document.getElementById('ayrinti');
+
+  for (const s of document.querySelectorAll('.kok')) s.textContent = location.origin;
+
+  function satir(baslik, deger) {
+    const dt = document.createElement('dt');
+    dt.textContent = baslik;
+    const dd = document.createElement('dd');
+    if (deger instanceof Node) dd.append(deger);
+    else dd.textContent = deger;
+    ayrinti.append(dt, dd);
+  }
+
+  function goster() {
+    const deger = girdi.value.trim();
+    ayrinti.replaceChildren();
+    ayrinti.hidden = true;
+    durum.className = '';
+    if (!deger) {
+      durum.textContent = '';
+      return;
+    }
+
+    const s = ibanDogrula(deger);
+    if (s.gecerli) {
+      durum.textContent = 'Geçerli';
+      durum.className = 'iyi';
+    } else {
+      durum.textContent = s.hata.mesaj;
+      durum.className = 'kotu';
+    }
+
+    if (s.banka) satir('Banka', `${s.banka.kisaAd} (${s.banka.ad})`);
+    if (s.uyari) {
+      const u = document.createElement('span');
+      u.className = 'uyari';
+      u.textContent = s.uyari;
+      satir('Not', u);
+    }
+    if (s.gecerli) {
+      const kutu = document.createElement('span');
+      const yazi = document.createElement('span');
+      yazi.className = 'mono';
+      yazi.textContent = ibanBicimle(s.iban);
+      const dugme = document.createElement('button');
+      dugme.type = 'button';
+      dugme.textContent = 'Kopyala';
+      dugme.onclick = async () => {
+        await navigator.clipboard.writeText(s.iban);
+        dugme.textContent = 'Kopyalandı';
+        setTimeout(() => (dugme.textContent = 'Kopyala'), 1500);
+      };
+      kutu.append(yazi, dugme);
+      satir('IBAN', kutu);
+    }
+    ayrinti.hidden = ayrinti.childElementCount === 0;
+  }
+
+  girdi.addEventListener('input', goster);
+  girdi.focus();
+</script>
+</body>
+</html>

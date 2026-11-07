@@ -1,0 +1,17 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run build && node scripts/site.mjs",
+  "outputDirectory": "public",
+  "functions": {
+    "api/dogrula.ts": { "maxDuration": 5 }
+  },
+  "headers": [
+    {
+      "source": "/bankalar.json",
+      "headers": [
+        { "key": "access-control-allow-origin", "value": "*" },
+        { "key": "cache-control", "value": "public, max-age=3600" }
+      ]
+    }
+  ]
+}

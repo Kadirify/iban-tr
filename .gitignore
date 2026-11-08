@@ -7,3 +7,7 @@ coverage/
 .vercel
 public/iban-tr.js
 public/bankalar.json
+bin/
+obj/
+*.nupkg
+*.snupkg

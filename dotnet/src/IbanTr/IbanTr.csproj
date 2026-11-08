@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+
+    <PackageId>IbanTr</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Kadir</Authors>
+    <Description>Türk IBAN'larını doğrular, bankasını bulur, biçimler ve maskeler. Geçersizse nedenini söyler.</Description>
+    <PackageTags>iban;turkiye;turkey;dogrulama;validation;banka</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://iban-tr.kadirify.com</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Kadirify/iban-tr</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <InternalsVisibleTo Include="IbanTr.Tests" />
+  </ItemGroup>
+
+</Project>

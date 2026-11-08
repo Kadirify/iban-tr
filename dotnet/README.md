@@ -23,8 +23,9 @@ s.Gecerli;        // true
 s.Iban;           // "TR200006200000000006298765"
 s.Banka?.KisaAd;  // "Garanti BBVA"
 
-Iban.Dogrula("TR21 0006 2000 0000 0006 2987 65").Hata;
-// IbanHatasi { Kod = Kontrol, Mesaj = "Kontrol hanesi tutmuyor, bir rakam yanlış yazılmış olabilir" }
+var hata = Iban.Dogrula("TR21 0006 2000 0000 0006 2987 65").Hata;
+hata?.Kod;    // HataKodu.Kontrol
+hata?.Mesaj;  // "Kontrol hanesi tutmuyor, bir rakam yanlış yazılmış olabilir"
 
 Iban.GecerliMi("TR20 0006 2000 0000 0006 2987 65");  // true
 ```

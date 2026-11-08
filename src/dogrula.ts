@@ -1,5 +1,5 @@
-import { bankaBul, type Banka } from './bankalar';
-import { IBAN_UZUNLUGU, ibanHatasi, ibanTemizle, type IbanHatasi } from './iban';
+import { bankaBul, type Banka } from './bankalar.js';
+import { IBAN_UZUNLUGU, ibanHatasi, ibanTemizle, type IbanHatasi } from './iban.js';
 
 export interface DogrulamaSonucu {
   gecerli: boolean;

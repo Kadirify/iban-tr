@@ -1,4 +1,4 @@
-import { ibanBicimle, ibanDogrula, type DogrulamaSonucu } from '../src/index';
+import { ibanBicimle, ibanDogrula, type DogrulamaSonucu } from '../src/index.js';
 
 // IBAN kişisel veri; istek ya da sonuç hiçbir yere yazılmıyor.
 

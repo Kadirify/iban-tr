@@ -1,4 +1,4 @@
-import { ibanTemizle } from './iban';
+import { ibanTemizle } from './iban.js';
 
 /** 4'erli gruplar: TR33 0006 1005 1978 6457 8413 26 */
 export function ibanBicimle(girdi: string): string {

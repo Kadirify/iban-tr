@@ -1,5 +1,5 @@
-import { BANKALAR, bankaBul } from './bankalar';
-import { kontrolHaneleri } from './iban';
+import { BANKALAR, bankaBul } from './bankalar.js';
+import { kontrolHaneleri } from './iban.js';
 
 export interface UretSecenekleri {
   /** EFT ya da IBAN banka kodu: '0062', '00062'. Verilmezse listeden rastgele bir banka. */

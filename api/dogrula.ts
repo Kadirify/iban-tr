@@ -20,10 +20,13 @@ function hataCevabi(kod: string, mesaj: string, durum = 400): Response {
   return cevap({ hata: { kod, mesaj } }, durum);
 }
 
+// 26 karakterlik IBAN boşluk ve önekle bile bunu geçmez; uzun girdiyi cevaba geri yazmıyoruz
+const EN_UZUN = 64;
+
 function sonuc(girdi: unknown) {
-  if (typeof girdi !== 'string') {
-    return { gecerli: false, iban: '', hata: { kod: 'bos', mesaj: 'IBAN metin olmalı' } };
-  }
+  const bos = { gecerli: false, iban: '', bicimli: null, banka: null, uyari: null };
+  if (typeof girdi !== 'string') return { ...bos, hata: { kod: 'tur', mesaj: 'IBAN metin olmalı' } };
+  if (girdi.length > EN_UZUN) return { ...bos, hata: { kod: 'uzunluk', mesaj: `En fazla ${EN_UZUN} karakter` } };
   const s: DogrulamaSonucu = ibanDogrula(girdi);
   return {
     gecerli: s.gecerli,

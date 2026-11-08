@@ -32,6 +32,13 @@ describe('api/dogrula', () => {
     expect(liste.map((x: { gecerli: boolean }) => x.gecerli)).toEqual([true, false, false]);
   });
 
+  it('metin olmayan ve çok uzun öğe aynı şemada', async () => {
+    const [sayi, uzun] = await oku(post({ ibanlar: [5, 'TR'.repeat(100)] }));
+    expect(sayi).toEqual({ gecerli: false, iban: '', bicimli: null, banka: null, uyari: null, hata: { kod: 'tur', mesaj: 'IBAN metin olmalı' } });
+    expect(uzun.hata.kod).toBe('uzunluk');
+    expect(uzun.iban).toBe('');
+  });
+
   it('POST hatalı gövde', async () => {
     expect((await post('{bozuk')).status).toBe(400);
     expect((await post({ ibanlar: 'TR..' })).status).toBe(400);

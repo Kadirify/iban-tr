@@ -80,8 +80,19 @@ ve form denemeleri için.
 
 ## Kontrol sayfası ve API
 
-Aynı repo bir web sayfası ve küçük bir API olarak da yayında. Kaynakları `public/` ve `api/`
-altında, Vercel'de çalışıyor.
+Kurmadan denemek için: **[iban-tr.vercel.app](https://iban-tr.vercel.app)**. Sayfadaki kontrol
+tarayıcıda yapılıyor, IBAN sunucuya gitmiyor.
+
+Başka bir dilden kullanmak için API:
+
+```
+curl -X POST https://iban-tr.vercel.app/api/dogrula -H "content-type: application/json" \
+  -d '{"iban": "TR20 0006 2000 0000 0006 2987 65"}'
+```
+
+Tek istekte 100 IBAN'a kadar `{"ibanlar": [...]}` da gönderilebilir. Banka listesi JSON olarak:
+[iban-tr.vercel.app/bankalar.json](https://iban-tr.vercel.app/bankalar.json). Kaynakları `public/`
+ve `api/` altında.
 
 ## Lisans
 

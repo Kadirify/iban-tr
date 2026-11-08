@@ -1,6 +1,6 @@
 {
   "name": "iban-tr",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Türk IBAN'larını doğrular, bankasını bulur, biçimler ve maskeler.",
   "keywords": [
     "iban",

@@ -37,6 +37,11 @@ export function mod97(metin: string): number {
 
 /** Ülke kodu ve BBAN için iki haneli kontrol numarası. */
 export function kontrolHaneleri(ulke: string, bban: string): string {
+  ulke = ulke.toUpperCase();
+  bban = bban.toUpperCase();
+  if (!/^[A-Z]{2}$/.test(ulke) || !/^[A-Z0-9]+$/.test(bban)) {
+    throw new RangeError(`Geçersiz ülke kodu ya da BBAN: ${ulke} ${bban}`);
+  }
   const k = 98 - mod97(bban + ulke + '00');
   return k < 10 ? `0${k}` : String(k);
 }

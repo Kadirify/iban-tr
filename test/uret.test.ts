@@ -23,6 +23,11 @@ describe('ibanUret', () => {
     expect(ibanUret({ rastgele: kaynak() })).toBe(ibanUret({ rastgele: kaynak() }));
   });
 
+  it('rastgele kaynak 1 dönse de çökmüyor', () => {
+    expect(ibanUret({ rastgele: () => 1 })).toMatch(/^TR\d{24}$/);
+    expect(ibanUret({ rastgele: () => 0 })).toMatch(/^TR\d{24}$/);
+  });
+
   it('hatalı seçenekler', () => {
     expect(() => ibanUret({ banka: '9999' })).toThrow(RangeError);
     expect(() => ibanUret({ banka: '0062', hesap: '123' })).toThrow(RangeError);

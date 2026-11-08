@@ -30,7 +30,9 @@ describe('ibanMaskele', () => {
     expect(ibanMaskele('TR3312', { son: 4 })).toBe('TR33 12');
   });
 
-  it('geçersiz son', () => {
+  it('geçersiz seçenekler', () => {
     expect(() => ibanMaskele(IBAN, { son: -1 })).toThrow(RangeError);
+    expect(() => ibanMaskele(IBAN, { isaret: 'xx' })).toThrow(RangeError);
+    expect(() => ibanMaskele(IBAN, { isaret: '' })).toThrow(RangeError);
   });
 });

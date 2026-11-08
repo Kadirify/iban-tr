@@ -106,6 +106,8 @@ describe('kontrol hanesi', () => {
 
   it('kontrolHaneleri bağımsız hesapla aynı', () => {
     for (const iban of GECERLI) expect(kontrolHaneleri('TR', iban.slice(4))).toBe(iban.slice(2, 4));
+    expect(kontrolHaneleri('tr', '0006100519786457841326')).toBe('33');
+    expect(() => kontrolHaneleri('TR', '00-06')).toThrow(RangeError);
   });
 });
 

@@ -23,6 +23,7 @@ export function ibanMaskele(girdi: string, s: MaskeSecenekleri = {}): string {
   const son = s.son ?? 4;
   const isaret = s.isaret ?? '*';
   if (!Number.isInteger(son) || son < 0) throw new RangeError(`son 0 ya da pozitif tam sayı olmalı: ${son}`);
+  if ([...isaret].length !== 1) throw new RangeError(`isaret tek karakter olmalı: '${isaret}'`);
   const acikSon = Math.min(son, Math.max(iban.length - 4, 0));
   const gizli = iban.length - 4 - acikSon;
   const maskeli = iban.slice(0, 4) + isaret.repeat(Math.max(gizli, 0)) + iban.slice(iban.length - acikSon);

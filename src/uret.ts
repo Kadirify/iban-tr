@@ -23,13 +23,14 @@ export function ibanUret(s: UretSecenekleri = {}): string {
     kod = b.kod;
   } else {
     const bankalar = BANKALAR.filter((b) => b.tur === 'banka' || b.tur === 'katilim');
-    kod = bankalar[Math.floor(r() * bankalar.length)]!.kod;
+    const i = Math.min(Math.floor(r() * bankalar.length), bankalar.length - 1);
+    kod = bankalar[Math.max(i, 0)]!.kod;
   }
 
   let hesap = s.hesap;
   if (hesap === undefined) {
     hesap = '';
-    for (let i = 0; i < 16; i++) hesap += Math.floor(r() * 10);
+    for (let i = 0; i < 16; i++) hesap += Math.min(Math.floor(r() * 10), 9);
   } else if (!/^\d{16}$/.test(hesap)) {
     throw new RangeError(`Hesap kısmı 16 rakam olmalı: ${hesap}`);
   }

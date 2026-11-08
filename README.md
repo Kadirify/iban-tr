@@ -94,6 +94,17 @@ Tek istekte 100 IBAN'a kadar `{"ibanlar": [...]}` da gönderilebilir. Banka list
 [iban-tr.kadirify.com/bankalar.json](https://iban-tr.kadirify.com/bankalar.json). Kaynakları `public/`
 ve `api/` altında.
 
+## .NET
+
+C# sürümü [dotnet/](dotnet/) altında, aynı kurallar ve aynı banka listesiyle. NuGet'te yok,
+projeye referans olarak eklenerek kullanılıyor.
+
+```csharp
+Iban.Dogrula("TR20 0006 2000 0000 0006 2987 65").Banka?.KisaAd;  // "Garanti BBVA"
+```
+
+Kullanımı [dotnet/README.md](dotnet/README.md) içinde.
+
 ## Lisans
 
 MIT

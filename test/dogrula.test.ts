@@ -17,6 +17,19 @@ describe('ibanTemizle', () => {
     expect(ibanTemizle('IBAN: TR33-0006-1005-1978-6457-8413-26')).toBe('TR330006100519786457841326');
     expect(ibanTemizle(' TR33\u00a00006\u200b1005 1978 6457 8413 26 ')).toBe('TR330006100519786457841326');
   });
+
+  it('yön işaretleri, yumuşak tire ve Türkçe İBAN öneki', () => {
+    const temiz = 'TR330006100519786457841326';
+    expect(ibanTemizle('TR33\u00ad0006\u200e1005 1978 6457 8413 26')).toBe(temiz);
+    expect(ibanTemizle('\u202aTR330006100519786457841326\u202c')).toBe(temiz);
+    expect(ibanTemizle('İBAN: TR33 0006 1005 1978 6457 8413 26')).toBe(temiz);
+    expect(ibanTemizle('IBAN No: TR33 0006 1005 1978 6457 8413 26')).toBe(temiz);
+  });
+
+  it('görünmeyen ya da çok parçalı karakteri anlaşılır gösteriyor', () => {
+    expect(ibanDogrula('TR33\u00070006').hata?.mesaj).toBe('Geçersiz karakter: U+0007');
+    expect(ibanDogrula('TR33\ud83d\ude000006').hata?.mesaj).toBe('Geçersiz karakter: "\ud83d\ude00"');
+  });
 });
 
 describe('ibanDogrula', () => {

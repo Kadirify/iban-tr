@@ -7,16 +7,16 @@ export interface IbanHatasi {
   mesaj: string;
 }
 
-/**
- * Boşlukları, tireleri, baştaki "IBAN:" yazısını atar, büyük harfe çevirir.
- * Kopyala-yapıştırda gelen görünmez karakterleri de temizler.
- */
+// Kopyalarken gelen görünmez karakterler: yumuşak tire, sıfır genişlikli boşluk, yön işaretleri
+const GORUNMEZ = /[\s\u00ad\u200b-\u200f\u202a-\u202e\u2060-\u2069\ufeff.\-_/]/g;
+
+/** Boşlukları, tireleri, baştaki "IBAN:" yazısını atar, büyük harfe çevirir. */
 export function ibanTemizle(girdi: string): string {
   if (typeof girdi !== 'string') throw new TypeError(`IBAN metin olmalı, gelen: ${typeof girdi}`);
   return girdi
     .normalize('NFKC')
-    .replace(/^\s*iban\s*:?/i, '')
-    .replace(/[\s​-‍⁠﻿.\-_/]/g, '')
+    .replace(GORUNMEZ, '')
+    .replace(/^[iİI]BAN(NO|NUMARASI)?:?/i, '')
     .toUpperCase();
 }
 
@@ -45,13 +45,17 @@ export function kontrolHaneleri(ulke: string, bban: string): string {
 export function ibanHatasi(iban: string): IbanHatasi | undefined {
   if (!iban) return { kod: 'bos', mesaj: 'IBAN boş' };
 
-  const yanlis = /[^A-Z0-9]/.exec(iban);
-  if (yanlis) return { kod: 'karakter', mesaj: `Geçersiz karakter: "${yanlis[0]}"` };
+  const yanlis = /[^A-Z0-9]/u.exec(iban);
+  if (yanlis) {
+    const h = yanlis[0];
+    // görünmeyen karakteri kodu ile göster, yoksa mesajda boş tırnak çıkıyor
+    const goster = /^[\p{L}\p{N}\p{P}\p{S}]$/u.test(h) ? `"${h}"` : `U+${h.codePointAt(0)!.toString(16).toUpperCase().padStart(4, '0')}`;
+    return { kod: 'karakter', mesaj: `Geçersiz karakter: ${goster}` };
+  }
 
   if (!/^[A-Z]{2}/.test(iban)) return { kod: 'ulke', mesaj: 'TR ile başlamalı' };
   if (!iban.startsWith('TR')) return { kod: 'ulke', mesaj: `Türk IBAN'ı değil, ${iban.slice(0, 2)} ile başlıyor` };
 
-  // TR'den sonra hepsi rakam. O ve I en sık karışan harfler
   const harf = /[A-Z]/.exec(iban.slice(2));
   if (harf) {
     const oneri = harf[0] === 'O' ? ', sıfır olmalı' : harf[0] === 'I' || harf[0] === 'L' ? ', bir olmalı' : '';

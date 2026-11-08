@@ -62,6 +62,8 @@ export function ibanHatasi(iban: string): IbanHatasi | undefined {
     return { kod: 'uzunluk', mesaj: `${IBAN_UZUNLUGU} karakter olmalı, ${iban.length} var` };
   }
   if (iban[9] !== '0') return { kod: 'rezerv', mesaj: '10. karakter 0 olmalı' };
+  const kk = Number(iban.slice(2, 4));
+  if (kk < 2 || kk > 98) return { kod: 'kontrol', mesaj: 'Kontrol haneleri 02 ile 98 arasında olmalı' };
   if (mod97(iban.slice(4) + iban.slice(0, 4)) !== 1) {
     return { kod: 'kontrol', mesaj: 'Kontrol hanesi tutmuyor, bir rakam yanlış yazılmış olabilir' };
   }

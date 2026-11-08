@@ -73,6 +73,13 @@ describe('ibanDogrula', () => {
     }
   });
 
+  it('00, 01 ve 99 kontrol hanesi geçersiz', () => {
+    // mod 97 tutsa bile: 99 = 02, 00 = 97 (mod 97)
+    expect(ibanGecerliMi('TR990001001777740266462208')).toBe(false);
+    expect(ibanGecerliMi('TR000003205032477938551550')).toBe(false);
+    expect(ibanDogrula('TR990001001777740266462208').hata?.kod).toBe('kontrol');
+  });
+
   it('metin olmayan girdi', () => {
     expect(ibanGecerliMi(123 as unknown as string)).toBe(false);
     expect(() => ibanDogrula(null as unknown as string)).toThrow(TypeError);

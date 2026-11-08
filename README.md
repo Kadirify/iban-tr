@@ -80,18 +80,18 @@ ve form denemeleri için.
 
 ## Kontrol sayfası ve API
 
-Kurmadan denemek için: **[iban-tr.vercel.app](https://iban-tr.vercel.app)**. Sayfadaki kontrol
+Kurmadan denemek için: **[iban-tr.kadirify.com](https://iban-tr.kadirify.com)**. Sayfadaki kontrol
 tarayıcıda yapılıyor, IBAN sunucuya gitmiyor.
 
 Başka bir dilden kullanmak için API:
 
 ```
-curl -X POST https://iban-tr.vercel.app/api/dogrula -H "content-type: application/json" \
+curl -X POST https://iban-tr.kadirify.com/api/dogrula -H "content-type: application/json" \
   -d '{"iban": "TR20 0006 2000 0000 0006 2987 65"}'
 ```
 
 Tek istekte 100 IBAN'a kadar `{"ibanlar": [...]}` da gönderilebilir. Banka listesi JSON olarak:
-[iban-tr.vercel.app/bankalar.json](https://iban-tr.vercel.app/bankalar.json). Kaynakları `public/`
+[iban-tr.kadirify.com/bankalar.json](https://iban-tr.kadirify.com/bankalar.json). Kaynakları `public/`
 ve `api/` altında.
 
 ## Lisans

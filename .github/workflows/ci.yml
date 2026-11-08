@@ -22,3 +22,21 @@ jobs:
       - run: npm test
       - run: npm run build
       - run: node scripts/site.mjs
+
+  dotnet:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: dotnet
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - name: Banka listesi src/bankalar.ts ile ayni mi
+        working-directory: .
+        run: node scripts/bankalar-cs.mjs && git diff --exit-code dotnet/
+      - run: dotnet test -c Release
+      - run: dotnet pack src/IbanTr -c Release -o paket

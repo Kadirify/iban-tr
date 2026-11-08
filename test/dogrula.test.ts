@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest';
 import { ibanDogrula, ibanGecerliMi, ibanParcala, ibanTemizle, kontrolHaneleri } from '../src';
 import { mod97 } from '../src/iban';
 
-// Kontrol haneleri Python'un büyük tam sayılarıyla ayrıca hesaplandı
 const GECERLI = [
   'TR330006100519786457841326',
   'TR680001000000123456789012',

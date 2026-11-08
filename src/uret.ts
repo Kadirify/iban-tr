@@ -4,9 +4,8 @@ import { kontrolHaneleri } from './iban.js';
 export interface UretSecenekleri {
   /** EFT ya da IBAN banka kodu: '0062', '00062'. Verilmezse listeden rastgele bir banka. */
   banka?: string;
-  /** 16 haneli hesap kısmı. Verilmezse rastgele. */
   hesap?: string;
-  /** Tekrarlanabilir sonuç için 0-1 arası sayı veren fonksiyon. Varsayılan Math.random. */
+  /** Varsayılan Math.random */
   rastgele?: () => number;
 }
 

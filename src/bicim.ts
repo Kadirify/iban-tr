@@ -6,11 +6,9 @@ export function ibanBicimle(girdi: string): string {
 }
 
 export interface MaskeSecenekleri {
-  /** Sonda kaç karakter açık kalsın. Varsayılan 4. */
+  /** Sonda açık kalacak karakter, varsayılan 4 */
   son?: number;
-  /** Maske karakteri. Varsayılan '*'. */
   isaret?: string;
-  /** Gruplu yazılsın mı. Varsayılan true. */
   grupla?: boolean;
 }
 

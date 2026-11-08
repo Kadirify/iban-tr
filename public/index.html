@@ -97,10 +97,10 @@
   <p class="alt">Türk IBAN'ı yapıştırın, doğru yazılmış mı ve hangi bankanın, hemen görün.</p>
 
   <input id="iban" autocomplete="off" spellcheck="false" inputmode="text"
-         placeholder="TR00 0000 0000 0000 0000 0000 00" aria-label="IBAN">
+         placeholder="IBAN'ı buraya yapıştırın" aria-label="IBAN">
 
   <div id="sonuc" aria-live="polite">
-    <div id="durum" class="soluk"></div>
+    <div id="durum"></div>
     <dl id="ayrinti" hidden></dl>
   </div>
 
@@ -184,8 +184,12 @@
       dugme.type = 'button';
       dugme.textContent = 'Kopyala';
       dugme.onclick = async () => {
-        await navigator.clipboard.writeText(s.iban);
-        dugme.textContent = 'Kopyalandı';
+        try {
+          await navigator.clipboard.writeText(s.iban);
+          dugme.textContent = 'Kopyalandı';
+        } catch {
+          dugme.textContent = 'Kopyalanamadı';
+        }
         setTimeout(() => (dugme.textContent = 'Kopyala'), 1500);
       };
       kutu.append(yazi, dugme);

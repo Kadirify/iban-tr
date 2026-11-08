@@ -18,7 +18,7 @@ public static class Iban
     {
         if (girdi is null) throw new ArgumentNullException(nameof(girdi));
         var sb = new StringBuilder(girdi.Length);
-        foreach (var c in girdi.Normalize(NormalizationForm.FormKC))
+        foreach (var c in Normallestir(girdi))
         {
             if (!Atilacak(c)) sb.Append(c);
         }
@@ -26,9 +26,19 @@ public static class Iban
         return Onek.Replace(sb.ToString().ToUpperInvariant().Replace('ı', 'I'), "");
     }
 
+    // Normalize yarım kalmış emojide (eşi olmayan surrogate) hata fırlatıyor; IBAN zaten geçersiz
+    private static string Normallestir(string s)
+    {
+        try { return s.Normalize(NormalizationForm.FormKC); }
+        catch (ArgumentException) { return s; }
+    }
+
+    // JS'teki \s ile aynı: char.IsWhiteSpace U+0085'i de sayıyor
+    internal static bool Bosluk(char c) => char.IsWhiteSpace(c) && c != (char)0x0085;
+
     // Kopyalarken gelen görünmez karakterler: yumuşak tire, sıfır genişlikli boşluk, yön işaretleri
     private static bool Atilacak(char c) =>
-        char.IsWhiteSpace(c)
+        Bosluk(c)
         || c is '.' or '-' or '_' or '/'
         || c == (char)0x00AD
         || (c >= (char)0x200B && c <= (char)0x200F)

@@ -45,6 +45,22 @@ public class TemizleTests
     }
 
     [Fact]
+    public void YarimEmojiCokertmiyor()
+    {
+        var yarim = "TR330" + (char)0xD83D + "006100519786457841326";
+        Assert.False(Iban.GecerliMi(yarim));
+        Assert.Equal("Geçersiz karakter: U+D83D", Iban.Dogrula(yarim).Hata?.Mesaj);
+        Assert.Equal("TR33 0" + (char)0xD83D + "00 6100 5197 8645 7841 326", Iban.Bicimle(yarim));
+    }
+
+    [Fact]
+    public void NelJsGibiSilinmiyor()
+    {
+        // U+0085 JS'te \s sayılmıyor, iki sürüm aynı sonucu vermeli
+        Assert.Equal("Geçersiz karakter: U+0085", Iban.Dogrula("TR330" + (char)0x85 + "006100519786457841326").Hata?.Mesaj);
+    }
+
+    [Fact]
     public void TurkceKulturdeDeDogruCalisiyor()
     {
         var eski = CultureInfo.CurrentCulture;

@@ -28,7 +28,7 @@ public static partial class Bankalar
         if (ibanVeyaKod is null) return null;
         var sb = new StringBuilder(ibanVeyaKod.Length);
         foreach (var c in ibanVeyaKod)
-            if (!char.IsWhiteSpace(c) && c != '-' && c != '.') sb.Append(c);
+            if (!Iban.Bosluk(c) && c != '-' && c != '.') sb.Append(c);
         var s = sb.ToString().ToUpperInvariant();
 
         string? kod = null;

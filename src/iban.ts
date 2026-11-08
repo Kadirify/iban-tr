@@ -16,8 +16,8 @@ export function ibanTemizle(girdi: string): string {
   return girdi
     .normalize('NFKC')
     .replace(GORUNMEZ, '')
-    .replace(/^[iİI]BAN(NO|NUMARASI)?:?/i, '')
-    .toUpperCase();
+    .toUpperCase()
+    .replace(/^[İI]BAN(NO|NUMARASI)?:?/, '');
 }
 
 /** ISO 13616 mod 97. Harfler A=10 ... Z=35 olarak sayılır. */

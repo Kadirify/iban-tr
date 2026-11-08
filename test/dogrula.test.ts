@@ -23,6 +23,8 @@ describe('ibanTemizle', () => {
     expect(ibanTemizle('\u202aTR330006100519786457841326\u202c')).toBe(temiz);
     expect(ibanTemizle('İBAN: TR33 0006 1005 1978 6457 8413 26')).toBe(temiz);
     expect(ibanTemizle('IBAN No: TR33 0006 1005 1978 6457 8413 26')).toBe(temiz);
+    expect(ibanTemizle('IBAN Numarası: TR33 0006 1005 1978 6457 8413 26')).toBe(temiz);
+    expect(ibanTemizle('iban numarası: TR33 0006 1005 1978 6457 8413 26')).toBe(temiz);
   });
 
   it('görünmeyen ya da çok parçalı karakteri anlaşılır gösteriyor', () => {

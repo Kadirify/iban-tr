@@ -1,5 +1,9 @@
 # Değişiklikler
 
+## 1.0.2
+
+- "IBAN Numarası:" öneki temizlenmiyordu.
+
 ## 1.0.1
 
 - Kontrol hanesi 00, 01 ya da 99 olan IBAN'lar geçerli sayılıyordu.

@@ -1,6 +1,9 @@
 # iban-tr
 
+[![npm](https://img.shields.io/npm/v/iban-tr)](https://www.npmjs.com/package/iban-tr)
+[![indirme](https://img.shields.io/npm/dm/iban-tr)](https://www.npmjs.com/package/iban-tr)
 [![CI](https://github.com/Kadirify/iban-tr/actions/workflows/ci.yml/badge.svg)](https://github.com/Kadirify/iban-tr/actions/workflows/ci.yml)
+[![lisans](https://img.shields.io/badge/lisans-MIT-blue)](LICENSE)
 
 Türk IBAN'larını doğrular, hangi bankanın olduğunu bulur, biçimler ve maskeler.
 Geçersizse nedenini söyler. Hesabın açık olup olmadığını ya da kime ait olduğunu söyleyemez,
